@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        .error {
+            display: none;
+            border: 1px solid #000;
+            position: fixed;
+            top: 10px;
+            right: 20px;
+        }
+    </style>
+    <script>
+        var source = new EventSource("/stream");
+        source.onmessage = function(event) {
+            console.log(event);
+            // document.getElementById("error").innerHTML += event.data + "<br>";
+        };
+
+        source.addEventListener('message', event => {
+            if (JSON.parse(event.data).length > 0) {
+            document.getElementById("error").innerHTML += event.data + "<br>";
+
+            document.getElementById('error').style.display = 'block';
+            } else {
+                document.getElementById('error').style.display = 'none';
+            }
+        });
+    </script>
+</head>
+<body>
+    Page 3:
+    <div id="error" class="error">Error</div>
+</body>
+</html>
